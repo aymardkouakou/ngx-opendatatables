@@ -47,7 +47,7 @@ export function ngAdd(options: Schema): Rule {
                 const cssPath = 'node_modules/datatables.net-dt/css/dataTables.dataTables.min.css';
                 if (!styles.includes(cssPath)) {
                     styles.push(cssPath);
-                    projectTarget.options!['styles'] = styles as string;
+                    projectTarget.options!['styles'] = styles;
                 }
             }
         });

@@ -7,17 +7,17 @@ import DataTable, { Api, Config } from 'datatables.net-dt';
 export class NgxOpendatatablesDirective implements OnDestroy {
   private el = inject(ElementRef)
 
-  private dtSignal = signal<Api | null | unknown>(null);
-  private configSignal = signal<Config>({});
+  private dtSignal = signal<Api | DataTable<any> | null>(null)
+  private configSignal = signal<Config>({})
 
-  @Output('DtInitialized') tableInitialized = new EventEmitter<Api | unknown>();
+  @Output('DtInitialized') tableInitialized = new EventEmitter<Api | DataTable<any> | undefined>()
 
   @Input('DtConfig')
   set config(configuration: Config) {
     if (configuration && typeof configuration === 'object') {
       this.configSignal.set(configuration)
     } else {
-      console.warn('Invalid DataTable configuration provided:', configuration);
+      console.warn('Invalid DataTable configuration provided:', configuration)
     }
   }
 
@@ -28,7 +28,7 @@ export class NgxOpendatatablesDirective implements OnDestroy {
       try {
         // Initialize new table
         const newTable = new DataTable(this.el.nativeElement, configuration);
-        this.tableInitialized.emit(newTable);
+        this.tableInitialized.emit(newTable)
         this.dtSignal.set(newTable)
       } catch (error) {
         console.error('Failed to initialize DataTable. Check configuration or dependencies:', error)
@@ -39,7 +39,7 @@ export class NgxOpendatatablesDirective implements OnDestroy {
   ngOnDestroy(): void {
     // Ensure table is cleaned up when directive is destroyed
     const table = this.dtSignal()
-    if (table) {
+    if (table instanceof DataTable) {
       table.destroy()
       this.dtSignal.set(null)
     }
