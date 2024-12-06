@@ -1,0 +1,26 @@
+{
+  "name": "ngx-opendatatables",
+  "version": "0.1.11",
+  "scripts": {
+    "patch": "npm version patch",
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/ngx-opendatatables/"
+  },
+  "peerDependencies": {
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "datatables.net-dt": "^2.1.8"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": true
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.7.2"
+  }
+}
