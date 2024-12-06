@@ -7,10 +7,10 @@ import DataTable, { Api, Config } from 'datatables.net-dt';
 export class NgxOpendatatablesDirective implements OnDestroy {
   private el = inject(ElementRef)
 
-  private dtSignal = signal<Api<any> | null>(null);
+  private dtSignal = signal<Api | null | unknown>(null);
   private configSignal = signal<Config>({});
 
-  @Output('DtInitialized') tableInitialized = new EventEmitter<Api<any>>();
+  @Output('DtInitialized') tableInitialized = new EventEmitter<Api | unknown>();
 
   @Input('DtConfig')
   set config(configuration: Config) {
