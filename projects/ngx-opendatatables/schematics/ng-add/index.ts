@@ -43,22 +43,21 @@ export function ngAdd(options: Schema): Rule {
             if (projectTarget) {
                 const options = projectTarget.options as workspaces.TargetDefinition['options'];
                 const styles = options!['styles'] as string[] || [];
-                
+
                 const cssPath = 'node_modules/datatables.net-dt/css/dataTables.dataTables.min.css';
                 if (!styles.includes(cssPath)) {
                     styles.push(cssPath);
-                    projectTarget.options!['styles'] = styles;
+                    projectTarget.options!['styles'] = styles as string;
                 }
             }
         });
 
-        // Écrire les modifications dans angular.json
         const workspacePath = '/angular.json';
         const workspaceContent = JSON.parse(tree.readText(workspacePath));
-        
-        workspaceContent.projects[options.project].architect.build.options.styles = 
+
+        workspaceContent.projects[options.project].architect.build.options.styles =
             project.targets.get('build')?.options!['styles'];
-        workspaceContent.projects[options.project].architect.test.options.styles = 
+        workspaceContent.projects[options.project].architect.test.options.styles =
             project.targets.get('test')?.options!['styles'];
 
         tree.overwrite(workspacePath, JSON.stringify(workspaceContent, null, 2));
